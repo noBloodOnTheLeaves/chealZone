@@ -1,0 +1,30 @@
+svg {
+    height: 400px;
+    width: 400px;
+    max-width: 400px;
+    float:left;
+  }
+  
+  #pBtn {
+    cursor: pointer;
+  }
+  
+  #tuningBtnFront, #volumeBtnFront, #antenna {
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+  
+  #textGroup {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  
+  .gsap-3-logo {
+    width: 20vw;
+    max-width: 150px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+  }

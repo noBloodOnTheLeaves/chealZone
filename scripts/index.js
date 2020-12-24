@@ -2,6 +2,7 @@ import { radioPlayerInit } from './radioPlayer.js';
 import { musicPlayerInit } from './musicPlayer.js';
 import { videoPlayerInit } from './videoPlayer.js';
 
+
 const playerBtn = document.querySelectorAll('.rela-inline');
 const playerBlock = document.querySelectorAll('.player-block');
 const temp = document.querySelector('.temp');
