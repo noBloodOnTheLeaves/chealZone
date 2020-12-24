@@ -1,4 +1,38 @@
 export const radioPlayerInit = () => {
-    console.log('radio init');
     const play = document.querySelector('.fa-play');
+    const radio = document.querySelector('.radio');
+    const radioCover = document.querySelector('.radio-cover');
+    const radioNavigation = document.querySelector('.radio-navigation');
+    const radioItem = document.querySelectorAll('.radio-item');
+    const radioStop = document.querySelector('.radio-stop');
+
+    const audio = new Audio();
+    audio.type = 'audio/aac';
+
+    radioStop.disabled = true;
+    const changeIconPlay = () =>{
+        if(audio.paused){
+            radioStop.classList.add('fa-play');
+            radioStop.classList.remove('fa-pause');
+        }else{
+            radioStop.classList.remove('fa-play');
+            radioStop.classList.add('fa-pause');
+        }
+    }
+    radioNavigation.addEventListener('change', event => {
+        const target = event.target;
+        radioStop.disabled = false;
+        audio.src = target.dataset.radioStantion;
+        audio.play();
+        changeIconPlay();
+    });
+    radioStop.addEventListener('click', ()=>{
+        if(audio.paused){
+            audio.play();
+            changeIconPlay();
+        }else{
+            audio.pause();
+            changeIconPlay();
+        }
+    })
 };
