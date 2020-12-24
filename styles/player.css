@@ -1,0 +1,7 @@
+.overlay_hidden {
+    display: none;
+}
+.overlay_error {
+    background: #ffcccc;
+    color: #ff0000;
+}
