@@ -1,4 +1,104 @@
+import { addZero} from './supScript.js';
 export const musicPlayerInit = () => {
-    console.log('music init');
+    const audio = document.querySelector('.audio');
+    const audioImg = document.querySelector('.cover');
+    const audioHeader = document.querySelector('.cover--title');
+    const audioPlayer = document.querySelector('.audio-player');
+    const audioNavigation = document.querySelector('.audio-navigation');
+    const audioButtonPlay = document.querySelector('.audio-button__play');
+    const audioProgress = document.querySelector('.audio-progress');
+    const audioTimePassed = document.querySelector('.audio-time__passed');
+    const audioProgressTiming = document.querySelector('.audio-progress__timing');
+    const audioTimeTotal = document.querySelector('.audio-time__total');
+
+    const playlist = ['hello', 'flow', 'speed'];
     
+    let trackIndex = 0;
+
+    const loadTrack = () => {
+        console.log('loadTrack');
+        const isPlayed = audioPlayer.paused;
+        const track = playlist[trackIndex];
+        audioImg.style.backgroundImage = `url(./audio/${track}.jpg)`;
+        audioPlayer.src = `./audio/${track}.mp3`;
+        audioHeader.textContent = track;
+        if(isPlayed){
+            audioPlayer.pause();
+        }else{
+            audioPlayer.play();
+        }
+    }
+    const nextTrack = () =>{
+        if(trackIndex === playlist.length-1){
+            trackIndex=0;
+        }else{
+            trackIndex++; 
+        }
+        loadTrack();
+    }
+    const prevTrack = () =>{
+        if(trackIndex !==0){
+            trackIndex--;
+        }else{
+            trackIndex= playlist.length - 1;
+        }
+        loadTrack();
+    }
+    audioProgress.addEventListener('click', event =>{
+        const x = event.offsetX;
+        const allWidth = audioProgress.clientWidth;
+        const progress = (x / allWidth) * audioPlayer.duration;
+        audioPlayer.currentTime = progress;
+        console.log(audioPlayer.currentTime);
+        console.log(progress);
+    })
+    audioPlayer.addEventListener('timeupdate',()=>{
+        const duration = audioPlayer.duration;
+        const currentTime = audioPlayer.currentTime;
+        const progress = (currentTime / duration) * 100;
+        audioProgressTiming.style.width = progress + '%';
+
+        const minutesPassed = Math.floor(currentTime / 60) || '0';
+        const secondPassed = Math.floor(currentTime % 60) || '0';
+
+        const minutesTotal = Math.floor(duration / 60) || '0';
+        const secondTotal = Math.floor(duration % 60) || '0';
+
+        audioTimePassed.textContent = `${addZero(minutesPassed)}:${addZero(secondPassed)}`;
+        audioTimeTotal.textContent = `${addZero(minutesTotal)}:${addZero(secondTotal)}`;
+    })
+
+    audioPlayer.addEventListener('ended',()=>{
+        nextTrack();
+        audioPlayer.play();
+    });
+
+    audioNavigation.addEventListener('click', event => {
+        const target = event.target;
+
+        if(target.classList.contains('audio-button__play')){
+            audio.classList.toggle('play');
+            audioButtonPlay.classList.toggle('fa-play');
+            audioButtonPlay.classList.toggle('fa-pause');
+           
+            if(audioPlayer.paused){
+                audioPlayer.play();
+            }else{
+                audioPlayer.pause();
+            }
+            const track = playlist[trackIndex];
+            audioImg.style.backgroundImage = `url(./audio/${track}.jpg)`;
+            audioHeader.textContent = track;
+        }
+        if(target.classList.contains('audio-button__next')){
+            nextTrack();
+        }
+        if(target.classList.contains('audio-button__prev')){
+            prevTrack();
+        }
+    });
+    musicPlayerInit.stop = () =>{
+        audioPlayer.pause();
+        audioButtonPlay.classList.toggle('fa-play');
+    }
 };
